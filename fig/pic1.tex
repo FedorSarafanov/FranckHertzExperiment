@@ -1,0 +1,83 @@
+\documentclass[border=1pt]{standalone}
+\usepackage[europeanresistors,americaninductors]{circuitikz}
+\usetikzlibrary
+    {
+        arrows,
+        patterns,
+        angles,
+        quotes,
+        calc, 
+        3d,  
+        backgrounds, 
+        positioning
+    }
+\begin{document}
+\begin{circuitikz}
+
+\ctikzset {label/align = straight }
+\ctikzset{bipoles/ammeter/text rotate/.initial=0,% <=new key
+rotation/.style={bipoles/ammeter/text rotate=#1},% style for ease introduction in code
+}
+
+
+% %%%%%%%%% ЛАМПА %%%%%%%%%%%%%%%%%
+\begin{scope}
+    \clip(0,0) circle (0.5cm);
+    \draw (0,-0.5) circle (0.25cm);
+    \draw[dashed] (-0.5,0) node[left] {} -- (0.5,0) coordinate (S);
+    \draw (0,0.5) coordinate (A) -- ++(0,-0.2) coordinate (1232);
+    \draw (1232)++(-0.2,0) -- ++(0.4,0);
+    \coordinate (K1) at ($(0,-0.5)+({180-(90-75.5224878)}:0.25)$);
+    \coordinate (K2) at ($(0,-0.5)+({(90-75.5224878)}:0.25)$);
+\end{scope} 
+\draw (K2) -- (0.25,-0.5) coordinate (K2);
+\draw (K1) -- (-0.25,-0.5) coordinate (K1);
+\draw (0,0) circle (0.5cm);
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\draw (A) -- ++(0,1.5) 
+    -- node[midway] {} coordinate (mua) ++(2,0) coordinate (vz1)
+    -- node[midway] {} coordinate (v1) ++(0,-2) coordinate (vz2);
+\draw (vz2) to ++(-1.5,0);
+
+\draw (K2) -- ++(0,-1.5) coordinate (ky);
+\draw (K1) -- ++(0,-1.5) coordinate (ky2);
+\draw (ky) -- (2,-2) coordinate (vy);
+
+\draw (vy) -- node[midway] {} coordinate (v2) ++(0,2) coordinate (vzvy);
+
+\draw (4,0) coordinate (Rz1) to[potentiometer,n=Rz] ++(0,2) coordinate (Rz2);
+
+\draw (4,-2) coordinate (Ry1) to[potentiometer,n=Ry] ++(0,1.7) coordinate (Ry2);
+ % \draw (0,0) to[potentiometer,n=Rz] ++(2,0)
+  % (Rz.wiper) to[short,-o] ++(2,0);
+
+% \draw ()
+
+\draw[thick, fill=white] (v1) circle (0.4cm) node {$V_z$};
+\draw[thick, fill=white] (v2) circle (0.4cm) node {$V_y$};
+\draw[thick, fill=white] (mua) circle (0.4cm) node {$\mu A$};
+
+\draw (vz2) to[short,*-] (Rz1);
+\draw (vz1) to[short, *-] ++(0,0) -| (Rz.wiper);
+\draw (3,0) to[short, *-] ++(0,0) |- (Ry.wiper);
+
+\draw (2,-2) to[short, *-] ++(2,0);
+
+\draw (4,2) -- ++ (1,0) -- ++ (0,-0.6) coordinate (u1);
+\draw (4,0) -- ++ (1,0) -- ++ (0,+0.6) coordinate (u2);
+\draw[fill=white] (u1) circle (2pt) node[right] {$-$};
+\draw[fill=white] (u2) circle (2pt) node[right] {$+$};
+
+\draw (4,{-2+1.7}) -- ++ (1,0) -- ++ (0,-0.5) coordinate (u1);
+\draw (4,-2) -- ++ (1,0) -- ++ (0,+0.5) coordinate (u2);
+\draw[fill=white] (u1) circle (2pt) node[right] {$-$};
+\draw[fill=white] (u2) circle (2pt) node[right] {$+$};
+
+
+\draw (ky) -- ++ (0,-0.5) coordinate (u1);
+\draw (ky2) -- ++ (0,-0.5) coordinate (u2);
+\draw[fill=white] (u1) circle (2pt);
+\draw[fill=white] (u2) circle (2pt); 
+\end{circuitikz}
+\end{document}
